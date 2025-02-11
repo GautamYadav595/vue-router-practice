@@ -16,7 +16,7 @@ const routes = [
     component: AboutView,
   },
   {
-    path: '/testpage',
+    path: '/testpage/:id',
     name: 'Testpage',
     component: TestPage,
   }
