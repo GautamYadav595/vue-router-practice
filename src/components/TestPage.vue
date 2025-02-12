@@ -5,7 +5,7 @@
     </div>
 </template>
 <script>
-import { useRoute } from 'vue-router';
+import { useRoute }  from 'vue-router';
 import { computed } from 'vue';
 export default {
     setup(){

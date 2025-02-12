@@ -1,40 +1,22 @@
 <template>
-  <h1>Hello App!</h1>
+  <h1>Nested Views</h1>
   <p>
-    <strong>Current route path:</strong> {{ $route.fullPath }}
+    <router-link :to="`/users/${id}`">/users/Gautam</router-link>
+    <br />
+    <router-link :to="`/users/${id}/profile`">/users/Gautam/profile</router-link>
+    <br />
+    <router-link :to="`/users/${id}/posts`">/users/Gautam/posts</router-link>
   </p>
-  <nav>
-    <RouterLink to="/">Go to Home</RouterLink>
-    <RouterLink to="/about">Go to About</RouterLink>
-    <RouterLink to="/Testpage">Go to Testpage</RouterLink>
-
-    <button v-on:click="handleClick">Click to go to test page</button>
-  </nav>
-  <main>
-    <RouterView />
-  </main>
+  <router-view></router-view> <!-- Renders UserPage -->
 </template>
 
 <script>
-import { RouterLink, RouterView } from 'vue-router'
-import TestPage from './components/TestPage.vue';
-
-
-export default{
+export default {
   name: 'App',
-  data(){
-    return{
-      msg: 'Hello Vue!'
-      }
+  data() {
+    return {
+      id: 'Gautam', // Ensure correct spelling (was 'Guatam')
+    };
   },
-  methods: {
-    handleClick(){
-      this.$router.push('/testpage');
-    }
-  }
-  
-}
-
+};
 </script>
-
-
