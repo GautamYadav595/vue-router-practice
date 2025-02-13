@@ -1,21 +1,46 @@
 <template>
-    <div class="bg-purple-600 text-white text-center py-20 h-[200px]">
-      <h2 class="text-3xl font-bold">User Profile</h2>
+    
+
+    <h3 class="text-3xl font-bold text-black text-center py-10">
+        Hello, {{ user ? user.username : 'Guest' }}
+    </h3>
+
+    <p v-if="successMessage" class="success text-green-600 text-center text-lg font-semibold">
+        {{ successMessage }}
+    </p>
+
+    <div class="text-center mt-5">
+        <button @click="logoutUser" class="bg-red-500 text-white px-4 py-2 rounded">Logout</button>
     </div>
-    
-        <h3 class="text-3xl font-bold text-black text-center py-20">Hello, {{ user.username }}</h3>
-   
-    
 </template>
 
 <script>
-import { computed } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
 export default {
-    setup(){
-        const store = useStore();;
+    setup() {
+        const store = useStore();
+        const router = useRouter();
         const user = computed(() => store.getters.user);
-        return {user};
+        const successMessage = ref('');
+
+        // Check if user is logged in
+
+        // Logout function
+        const logoutUser = () => {
+            store.dispatch('logout');
+            router.push('/');
+        };
+
+        return { user, logoutUser };
     }
-}
+};
 </script>
+
+<style scoped>
+.success {
+    margin-top: 10px;
+}
+</style>

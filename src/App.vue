@@ -8,14 +8,15 @@
     <br />
     <router-link :to="`/users/${id}/posts`">/users/Gautam/posts</router-link>
   </p> -->
-  <div>
+  <div class="bg-[rgba(245,242,235,1)] h-screen">
   <TheNavigation />
   <router-view></router-view>
-</div> <!-- Renders UserPage -->
+</div>
 </template>
 
 <script>
 import TheNavigation from './components/TheNavigation.vue';
+
 
 export default {
   name: 'App',
@@ -23,10 +24,6 @@ export default {
     
     TheNavigation
     },
-  data() {
-    return {
-      id: 'Gautam', // Ensure correct spelling (was 'Guatam')
-    };
-  },
+  
 };
 </script>

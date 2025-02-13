@@ -25,39 +25,69 @@
   //   ],
   // },
 
-import HomePage from '@/components/pages/HomePage.vue';
-import LogIn from '@/components/pages/LogIn.vue';
-import LogOut from '@/components/pages/LogOut.vue';
+// import HomePage from '@/components/pages/HomePage.vue';
+// import LogIn from '@/components/pages/LogIn.vue';
+// import LogOut from '@/components/pages/LogOut.vue';
 
-import UserProfile from '@/components/pages/UserProfile.vue';
+// import UserProfile from '@/components/pages/UserProfile.vue';
+// import { createRouter, createWebHistory } from 'vue-router';
+// import store from '@/store';
+
+// const routes = [
+//   {path: '/',  component: HomePage},
+//   {path: '/login', component: LogIn},
+//   {path: '/user', component: UserProfile, meta: {requiresAuth: true}},
+//   {path: '/logout', component: LogOut}
+  
+// ];
+
+
+// const router = createRouter({
+//   history: createWebHistory(), 
+//   routes,
+// });
+
+// router.beforeEach((to, from, next) => {
+//   if (to.meta.requiresAuth) {
+//     if (!store || !store.getters || typeof store.getters.isAuthenticated === 'undefined') {
+//       next('/login'); 
+//     } else if (!store.getters.isAuthenticated) {
+//       next('/login'); 
+//     } else {
+//       next();
+//     }
+//   } else {
+//     next();
+//   }
+// });
+// export default router;
+
+
+
 import { createRouter, createWebHistory } from 'vue-router';
-import store from '@/store';
+import LogIn from '@/components/pages/LogIn.vue';
+import HomePage from '@/components/pages/HomePage.vue';
+import UserProfile from '@/components/pages/UserProfile.vue';
 
 const routes = [
-  {path: '/',  component: HomePage},
-  {path: '/login', component: LogIn},
-  {path: '/user', component: UserProfile, meta: {requiresAuth: true}},
-  {path: '/logout', component: LogOut}
-  
+    { path: '/', component: HomePage },
+    { path: '/login', component: LogIn , },
+    {path: '/profile', component: UserProfile, },
 ];
 
-// Create the router instance
 const router = createRouter({
-  history: createWebHistory(), // or use createMemoryHistory() if needed
-  routes,
+    history: createWebHistory(),
+    routes
 });
 
+
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth) {
-    if (!store || !store.getters || typeof store.getters.isAuthenticated === 'undefined') {
-      next('/login'); // Redirect to login if `store.getters` is undefined
-    } else if (!store.getters.isAuthenticated) {
-      next('/login'); // Redirect to login if not authenticated
+    const isAuthenticated = localStorage.getItem('token');
+    if (to.meta.requiresAuth && !isAuthenticated) {
+        next('/profile');
     } else {
-      next();
+        next();
     }
-  } else {
-    next();
-  }
 });
+
 export default router;

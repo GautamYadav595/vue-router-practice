@@ -1,31 +1,41 @@
 import { createStore } from 'vuex';
+import axios from 'axios';
 
-const store = createStore({
-  state: {
-    user: JSON.parse(localStorage.getItem('user')) || null
-  },
-  mutations: {
-    setUser(state, user) {
-      state.user = user;
-      localStorage.setItem('user', JSON.stringify(user));
+export default createStore({
+    state: {
+        user: null,
+        
     },
-    logout(state) {
-      state.user = null;
-      localStorage.removeItem('user');
-    }
-  },
-  actions: {
-    login({ commit }, user) {
-      commit('setUser', user);
+    mutations: {
+        SET_USER(state, user){
+            state.user = user
+        },
+        
+        LOGOUT(state) {
+            state.user = null;
+        }
     },
-    logout({ commit }) {
-      commit('logout');
+    actions: {
+        async login({ commit }, credentials) {
+            try {
+                const response = await axios.post('https://dummyjson.com/auth/login', credentials);
+                
+                    commit('SET_USER', response.data);
+                
+                return { success: true }; 
+            } catch (error) {
+                return { 
+                    success: false, 
+                    message: error.response?.data?.message || 'Invalid credentials'
+                };
+            }
+        },
+        logout({ commit }) {
+            commit('LOGOUT');
+        }
+    },
+    getters: {
+        isAuthenticated: state => !!state.token,
+        user: state => state.user
     }
-  },
-  getters: {
-    isAuthenticated: state => !!state.user, // ✅ Ensures it always returns true/false
-    user: state => state.user || {} // ✅ Avoids undefined errors
-  }
 });
-
-export default store;
